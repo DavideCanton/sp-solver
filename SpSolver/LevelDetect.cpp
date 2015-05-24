@@ -7,7 +7,7 @@
 using namespace std;
 using namespace cv;
 
-Scalar PieceColor = CV_RGB(65, 33, 145);
+Scalar PIECE_COLOR = CV_RGB(65, 33, 145);
 
 vector<Vec3f> detectCircles(Mat& img, int offset)
 {
@@ -40,7 +40,7 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 	Scalar centerColor = Scalar(v[0], v[1], v[2]);
 
 	set<int> dirs;
-	if (norm(centerColor - PieceColor) < 5)
+	if (norm(centerColor - PIECE_COLOR) < 5)
 	{
 		for (Vec4i c : lines)
 		{
