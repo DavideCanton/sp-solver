@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv)
 {
-	if (false && argc != 3 && argc != 4)
+	if (argc != 3 && argc != 4)
 	{
 		std::cerr << "Parametri non validi!" << std::endl;
 		return EXIT_FAILURE;
@@ -17,11 +17,11 @@ int main(int argc, char** argv)
 
 	Grid grid;
 	PieceVec pieces;
-	//float factor = strtof(argv[2], NULL);
-	float factor = 2.0f;
+	float factor = strtof(argv[2], NULL);
+	//float factor = 2.0f;
 
-	std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Downloads\\music\\original6.png", 2.0f);
-	//std::tie(grid, pieces) = detectLevel(argv[1], factor);
+	//std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Downloads\\music\\original6.png", 2.0f);
+	std::tie(grid, pieces) = detectLevel(argv[1], factor);
 
 	std::cout << "Grid of " << grid.get_content().size() << " cells detected." << std::endl;
 	std::cout << "Pieces found:" << std::endl;
