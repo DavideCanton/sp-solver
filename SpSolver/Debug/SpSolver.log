@@ -1,16 +1,9 @@
-﻿Compilazione avviata 24/05/2015 13:21:42.
+﻿Compilazione avviata 24/05/2015 18:43:03.
      1>Progetto "C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\SpSolver\SpSolver.vcxproj" sul nodo 2 (destinazioni: Build).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\include\opencv\build\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Coords.cpp Drawer.cpp Grid.cpp LevelDetect.cpp LevelLoader.cpp Main.cpp Piece.cpp Solver.cpp Utils.cpp
-         Utils.cpp
-         Solver.cpp
-         Piece.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\include\opencv\build\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt LevelDetect.cpp Main.cpp
          Main.cpp
-         LevelLoader.cpp
          LevelDetect.cpp
-         Grid.cpp
-         Drawer.cpp
-         Coords.cpp
          Generazione del codice in corso...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Debug\SpSolver.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\include\opencv\build\x86\vc12\lib opencv_core2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Debug\SpSolver.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Debug\SpSolver.lib" /MACHINE:X86 Debug\Coords.obj
@@ -27,4 +20,4 @@
 
 Compilazione completata.
 
-Tempo trascorso 00:00:10.68
+Tempo trascorso 00:00:04.85

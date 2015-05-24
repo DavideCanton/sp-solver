@@ -1,16 +1,9 @@
-﻿Compilazione avviata 24/05/2015 13:21:58.
+﻿Compilazione avviata 24/05/2015 18:42:52.
      1>Progetto "C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\SpSolver\SpSolver.vcxproj" sul nodo 2 (destinazioni: Build).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\include\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Coords.cpp Drawer.cpp Grid.cpp LevelDetect.cpp LevelLoader.cpp Main.cpp Piece.cpp Solver.cpp Utils.cpp
-         Coords.cpp
-         Drawer.cpp
-         Grid.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\include\opencv\build\include /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt LevelDetect.cpp Main.cpp
          LevelDetect.cpp
-         LevelLoader.cpp
          Main.cpp
-         Piece.cpp
-         Solver.cpp
-         Utils.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Release\SpSolver.exe" /NOLOGO /LIBPATH:D:\include\opencv\build\x86\vc12\lib opencv_core2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Release\SpSolver.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Davide\Documents\Visual Studio 2013\Projects\SpSolver\Release\SpSolver.lib" /MACHINE:X86 /SAFESEH Release\Coords.obj
          Release\Drawer.obj
@@ -28,4 +21,4 @@
 
 Compilazione completata.
 
-Tempo trascorso 00:00:09.68
+Tempo trascorso 00:00:08.37
