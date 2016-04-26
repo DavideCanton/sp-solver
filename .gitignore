@@ -32,6 +32,7 @@
 *.pdb
 *.tlog
 *.log
+*.png
 
 ./x64
 ./SpSolver/x64
