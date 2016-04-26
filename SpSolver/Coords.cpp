@@ -14,9 +14,9 @@ Coords::Coords(double qd, double rd)
 	double z = rd;
 	double y = -x - z;
 
-	int rx = (int)round(x);
-	int ry = (int)round(y);
-	int rz = (int)round(z);
+	int rx = static_cast<int>(round(x));
+	int ry = static_cast<int>(round(y));
+	int rz = static_cast<int>(round(z));
 
 	double x_diff = abs(rx - x);
 	double y_diff = abs(ry - y);
@@ -29,8 +29,8 @@ Coords::Coords(double qd, double rd)
 	else
 		rz = -rx - ry;
 
-	this->q = (int)rx;
-	this->r = (int)rz;
+	this->q = static_cast<int>(rx);
+	this->r = static_cast<int>(rz);
 }
 
 Coords::~Coords()

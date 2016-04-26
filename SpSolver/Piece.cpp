@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-Piece::Piece(std::vector<int> dirs, std::string aspect) : aspect(aspect), dirs(dirs)
+Piece::Piece(std::vector<int> dirs, std::string aspect) : dirs(dirs), aspect(aspect)
 {
 	arity = dirs.size() / 2;
 	_id = ID++;

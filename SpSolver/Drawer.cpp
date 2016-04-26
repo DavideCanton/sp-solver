@@ -46,7 +46,7 @@ Mat draw(const Grid& grid)
 	int size_hex = 30;
 
 	int h = (grid.get_max_r() - grid.get_min_r()) * size_hex * 2;
-	int w = (int)((grid.get_max_q() - grid.get_min_q()) * size_hex * sqrt(3.0));
+	int w = static_cast<int>((grid.get_max_q() - grid.get_min_q()) * size_hex * sqrt(3.0));
 
 	Point2d offset(size.width / 2.0 - w / 2.0, size.height / 2.0 - h / 2.0);	
 

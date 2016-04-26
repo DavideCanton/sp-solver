@@ -7,6 +7,12 @@
 using namespace std;
 using namespace cv;
 
+#define MIN_RADIUS 25
+#define MAX_RADIUS 50
+#define MIN_LINE_LENGTH 50
+#define MAX_LINE_GAP 50
+#define LIMIT_GAP 80
+
 Scalar PIECE_COLOR = CV_RGB(65, 33, 145);
 
 vector<Vec3f> detectCircles(Mat& img, int offset)
@@ -14,16 +20,14 @@ vector<Vec3f> detectCircles(Mat& img, int offset)
 	vector<Vec3f> circles;
 
 	HoughCircles(img(Rect(0, offset, img.cols, img.rows - offset)),
-		circles, CV_HOUGH_GRADIENT, 1, img.rows / 32, 30, 30, 30, 50);
+		circles, CV_HOUGH_GRADIENT, 1, img.rows / 32, 30, 30, MIN_RADIUS, MAX_RADIUS);
 
 	return circles;
 }
 
 bool near_border(int x, int limit, int threshold = 2)
 {
-	if (abs(x - limit) < threshold)
-		return true;
-	return false;
+	return abs(x - limit) < threshold;
 }
 
 vector<int> detectPieces(Mat& img, Mat& img_gray)
@@ -34,13 +38,13 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 
 	Canny(img_gray, img_gray_d, 30, 100);
 
-	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 30, 20, 50);
+	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 30, MIN_LINE_LENGTH, MAX_LINE_GAP);
 
 	Vec3b v = img.at<Vec3b>(img.cols / 2, img.rows / 2);
 	Scalar centerColor = Scalar(v[0], v[1], v[2]);
 
 	set<int> dirs;
-	if (norm(centerColor - PIECE_COLOR) < 5)
+	if (norm(centerColor - PIECE_COLOR) < 10)
 	{
 		for (Vec4i c : lines)
 		{
@@ -55,7 +59,7 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 			if (near_border(c[1], img.rows) && near_border(c[3], img.rows))
 				continue;
 
-			float m = ((float)(c[3] - c[1])) / (c[2] - c[0]);
+			float m = static_cast<float>(c[3] - c[1]) / (c[2] - c[0]);
 			if (isfinite(m))
 			{
 				if (fabs(m) < 1e-8)
@@ -77,13 +81,15 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 		}
 	}
 
-	//if (!dirs.empty()) { imshow("Piece", img); waitKey(0); }
+	//if (!dirs.empty()) { 
+	//imshow("Piece", img); waitKey(0);
+	//}
 
 	return vector<int>(dirs.begin(), dirs.end());
 }
 
 /** @function main */
-std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
+std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor = 2.0f)
 {
 	Mat src, src_gray;
 
@@ -95,7 +101,7 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
 
 
 	int offset = 0;
-	int limit = src.rows / 4 - 50;
+	int limit = src.rows / 4 - LIMIT_GAP;
 	/// Convert it to gray
 	cvtColor(src, src_gray, CV_BGR2GRAY);
 
@@ -112,7 +118,7 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
 		if (p[1] > limit)
 		{
 			//if (n == 0)
-				start = p;
+			start = p;
 			avg_radius += p[2];
 			++n;
 		}
@@ -127,8 +133,8 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
 	{
 		if (p[1] > limit)
 		{
-			Point2d center(p[0], p[1]);
-			Point2d size(avg_radius, avg_radius);
+			//Point2d center(p[0], p[1]);
+			//Point2d size(avg_radius, avg_radius);
 
 			p -= start;
 
@@ -143,7 +149,7 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
 		else
 		{
 			Point2d center(p[0], p[1]);
-			int radius = (int)p[2];
+			int radius = static_cast<int>(p[2]);
 			circle(src, center, radius, 0);
 
 			Rect bounding_rect(center - Point2d(radius, radius), Size(2 * radius, 2 * radius));
@@ -154,7 +160,7 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor=2.0f)
 				pv.push_back(p);
 			}
 		}
-	}	
+	}
 
 	return make_pair(grid, pv);
 }

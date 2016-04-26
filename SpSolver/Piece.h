@@ -15,7 +15,7 @@ public:
 		return dirs;
 	}
 
-	int get_arity() const
+	size_t get_arity() const
 	{
 		return arity;
 	}
@@ -54,7 +54,7 @@ private:
 	int _id;
 	std::vector<int> dirs;
 	std::string aspect;
-	int arity;
+	size_t arity;
 };
 
 namespace std

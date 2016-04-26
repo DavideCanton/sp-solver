@@ -27,5 +27,12 @@
 *.out
 *.app
 
-./Debug
-./Release
+*.db
+*.opendb
+*.pdb
+*.tlog
+*.log
+
+./x64
+./SpSolver/x64
+./.vs

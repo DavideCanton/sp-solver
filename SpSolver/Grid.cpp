@@ -89,6 +89,7 @@ void Grid::recompute_cover()
 	PieceVec pv;
 	for (auto& pair : pieces)
 		pv.push_back(pair.first);
+
 	std::sort(pv.begin(), pv.end(), [](const Piece& p1, const Piece& p2) -> bool
 	{
 		return p1.get_arity() > p2.get_arity();

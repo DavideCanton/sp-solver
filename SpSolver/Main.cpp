@@ -6,23 +6,12 @@
 #include "Solver.h"
 #include "Drawer.h"
 #include <iostream>
+#include "Main.h"
 
-int main(int argc, char** argv)
+#define DEBUG 1
+
+void execute(Grid& grid, PieceVec& pieces, int argc, char** argv)
 {
-	if (argc != 3 && argc != 4)
-	{
-		std::cerr << "Parametri non validi!" << std::endl;
-		return EXIT_FAILURE;
-	}
-
-	Grid grid;
-	PieceVec pieces;
-	float factor = strtof(argv[2], NULL);
-	//float factor = 2.0f;
-
-	//std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Downloads\\music\\original6.png", 2.0f);
-	std::tie(grid, pieces) = detectLevel(argv[1], factor);
-
 	std::cout << "Grid of " << grid.get_content().size() << " cells detected." << std::endl;
 	std::cout << "Pieces found:" << std::endl;
 	for (Piece& p : pieces)
@@ -37,13 +26,46 @@ int main(int argc, char** argv)
 
 	cv::Mat img = draw(grid);
 
-	if (argc == 3)
+	int max_argc =
+#ifdef DEBUG
+		2
+#else
+		3
+#endif
+		;
+
+	if (argc != max_argc)
 	{
 		cv::imshow("Solution", img);
 		cv::waitKey(0);
 	}
 	else
-		cv::imwrite(argv[3], img);
+		cv::imwrite(argv[max_argc], img);
+}
+
+int main(int argc, char** argv)
+{
+#ifndef DEBUG
+	if (argc != 3 && argc != 4)
+	{
+		std::cerr << "Parametri non validi!" << std::endl;
+		return EXIT_FAILURE;
+	}
+#endif
+
+	Grid grid;
+	PieceVec pieces;
+
+#ifdef DEBUG
+	float factor = 2.0f;
+	std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Documents\\Visual Studio 2013\\Projects\\SpSolver\\SpSolver\\device-2016-04-10-000033.png", factor);
+#else
+	float factor = strtof(argv[2], nullptr);
+	std::tie(grid, pieces) = detectLevel(argv[1], factor);
+#endif 
+
+	execute(grid, pieces, argc, argv);
 
 	return EXIT_SUCCESS;
 }
+

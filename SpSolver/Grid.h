@@ -15,11 +15,11 @@ struct CellData
 	{
 	}
 
-	CellData(const Piece& p) : empty(false), piece(&p)
+	explicit CellData(const Piece& p) : empty(false), piece(&p)
 	{
 	}
 
-	CellData(bool empty) : empty(empty), piece(nullptr)
+	explicit CellData(bool empty) : empty(empty), piece(nullptr)
 	{
 	}
 };
@@ -31,7 +31,7 @@ const CellData GRID_FILLED_CELL = CellData(false);
 class Grid
 {
 public:
-	Grid() : min_q(INT_MAX), min_r(INT_MAX), max_q(INT_MIN), max_r(INT_MIN)
+	Grid() : min_q(INT_MAX), max_q(INT_MIN), min_r(INT_MAX), max_r(INT_MIN)
 	{
 	}
 

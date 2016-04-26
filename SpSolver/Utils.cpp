@@ -3,12 +3,14 @@
 #include <algorithm>
 
 #define DIRS_SIZE 6
-static Coords _DIRECTIONS[DIRS_SIZE] = { Coords(1, 0), // E
-Coords(1, -1), // NE
-Coords(0, -1), // NW
-Coords(-1, 0), // W
-Coords(-1, 1), // SW
-Coords(0, 1) }; // SE
+static Coords _DIRECTIONS[DIRS_SIZE] = {
+	Coords(1, 0), // E
+	Coords(1, -1), // NE
+	Coords(0, -1), // NW
+	Coords(-1, 0), // W
+	Coords(-1, 1), // SW
+	Coords(0, 1)
+}; // SE
 
 Coords get_direction(int index)
 {
@@ -53,13 +55,15 @@ CoordsVec get_neighbors(const Coords& c)
 }
 
 #define PIECES_SIZE 7
-static Piece _PIECES[PIECES_SIZE] = { Piece(std::vector < int > { 0, 3 }, "--"),
-Piece(std::vector < int > { 2, 5 }, "\\"),
-Piece(std::vector < int > { 1, 4 }, "/"),
-Piece(std::vector < int > { 0, 2, 3, 5 }, "-\\-"),
-Piece(std::vector < int > { 0, 1, 3, 4 }, "-/-"),
-Piece(std::vector < int > { 1, 2, 4, 5 }, "X"),
-Piece(std::vector < int > { 0, 1, 2, 3, 4, 5 }, "*") };
+static Piece _PIECES[PIECES_SIZE] = {
+	Piece(std::vector < int > { 0, 3 }, "--"),
+	Piece(std::vector < int > { 2, 5 }, "\\"),
+	Piece(std::vector < int > { 1, 4 }, "/"),
+	Piece(std::vector < int > { 0, 2, 3, 5 }, "-\\-"),
+	Piece(std::vector < int > { 0, 1, 3, 4 }, "-/-"),
+	Piece(std::vector < int > { 1, 2, 4, 5 }, "X"),
+	Piece(std::vector < int > { 0, 1, 2, 3, 4, 5 }, "*")
+};
 
 Piece make_piece(int index)
 {
