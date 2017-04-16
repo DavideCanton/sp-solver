@@ -36,4 +36,6 @@
 
 ./x64
 ./SpSolver/x64
-./.vs
+**/.vs
+*.idb
+/x64

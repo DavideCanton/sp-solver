@@ -7,5 +7,6 @@
 #include <opencv2/core/core.hpp>
 
 cv::Mat draw(const Grid&);
+void draw_hex(cv::Mat& img, const cv::Point2d& center, int size, const cv::Point2d& offset);
 
 #endif // DRAWER_H

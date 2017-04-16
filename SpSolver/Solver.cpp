@@ -2,25 +2,25 @@
 #include <algorithm>
 #include <iostream>
 
-using ScoreCoordsPair = std::pair < int, Coords > ;
-using ScoreCoordsPairVec = std::vector < ScoreCoordsPair > ;
-using Place = std::pair < int, ScoreCoordsPairVec > ;
+using ScoreCoordsPair = std::pair < int, Coords >;
+using ScoreCoordsPairVec = std::vector < ScoreCoordsPair >;
+using Place = std::pair < int, ScoreCoordsPairVec >;
 
 auto NULL_PAIR = std::make_pair(-1, ScoreCoordsPairVec());
 
 void Solver::solve()
-{	
+{
 	auto comparer = [](const Piece& p1, const Piece& p2) -> bool
 	{
 		return p1.get_arity() > p2.get_arity();
 	};
 
 	std::sort(pieces.begin(), pieces.end(), comparer);
-	std::vector<Place> places(pieces.size());	
+	std::vector<Place> places(pieces.size());
 
 	for (int it_count = 0;; ++it_count)
 	{
-		std::clog << "Iteration " << it_count << std::endl;
+		std::cout << "Iteration " << it_count << std::endl;
 		std::fill(places.begin(), places.end(), NULL_PAIR);
 
 		int cur_piece = 0;
@@ -53,7 +53,7 @@ void Solver::solve()
 				{
 					return p1.first > p2.first;
 				});
-				places[cur_piece].first = 1;				
+				places[cur_piece].first = 1;
 				cell_max = cells_max[0].second;
 			}
 			else
@@ -76,6 +76,10 @@ void Solver::solve()
 			}
 
 			g->place_piece(cell_max, piece);
+
+			if (this->callback)
+				this->callback(it_count);
+
 			++cur_piece;
 
 		} while (!g->is_full() || cur_piece != pieces.size());
@@ -87,6 +91,11 @@ void Solver::solve()
 			break;
 	}
 
-	if (!g->is_full())	
+	if (!g->is_full())
 		g->empty();
+}
+
+void Solver::set_callback(SolverCallback cb)
+{
+	this->callback = cb;
 }

@@ -3,6 +3,7 @@
 #include <set>
 #include "Coords.h"
 #include "LevelDetect.h"
+#include "Drawer.h"
 
 using namespace std;
 using namespace cv;
@@ -133,8 +134,8 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor = 2.0f)
 	{
 		if (p[1] > limit)
 		{
-			//Point2d center(p[0], p[1]);
-			//Point2d size(avg_radius, avg_radius);
+			Point2d center(p[0], p[1]);
+			Point2d size(avg_radius, avg_radius);
 
 			p -= start;
 

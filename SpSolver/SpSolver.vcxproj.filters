@@ -72,9 +72,4 @@
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="device-2016-04-10-000033.png">
-      <Filter>Images</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

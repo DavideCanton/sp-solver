@@ -6,9 +6,9 @@
 #include "Solver.h"
 #include "Drawer.h"
 #include <iostream>
-#include "Main.h"
 
 #define DEBUG 1
+#define DRAW_EVERY_IT 0
 
 void execute(Grid& grid, PieceVec& pieces, int argc, char** argv)
 {
@@ -18,6 +18,21 @@ void execute(Grid& grid, PieceVec& pieces, int argc, char** argv)
 		std::cout << p << std::endl;
 
 	Solver solver(&grid, pieces);
+
+#if DRAW_EVERY_IT
+	solver.set_callback([&grid](int iteration) {
+		cv::Mat img = draw(grid);
+
+		std::ostringstream oss;
+		oss << "Iteration " << iteration;
+
+		std::string title = oss.str();
+
+		cv::imshow(title, img);
+		cv::waitKey(0);
+	});
+#endif
+
 	solver.solve();
 
 	std::cout << "Positions found:" << std::endl;
@@ -58,7 +73,7 @@ int main(int argc, char** argv)
 
 #ifdef DEBUG
 	float factor = 2.0f;
-	std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Documents\\Visual Studio 2013\\Projects\\SpSolver\\SpSolver\\device-2016-04-10-000033.png", factor);
+	std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Documents\\Screenshot_2017-04-15-13-20-00.png", factor);
 #else
 	float factor = strtof(argv[2], nullptr);
 	std::tie(grid, pieces) = detectLevel(argv[1], factor);
