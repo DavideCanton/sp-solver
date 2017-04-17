@@ -70,13 +70,14 @@ int main(int argc, char** argv)
 
 	Grid grid;
 	PieceVec pieces;
+	LevelDetectorConfig config;	
+	LevelDetector detector(config);
 
 #ifdef DEBUG
-	float factor = 2.0f;
-	std::tie(grid, pieces) = detectLevel("C:\\Users\\Davide\\Documents\\Screenshot_2017-04-15-13-20-00.png", factor);
+	std::tie(grid, pieces) = detector.detectLevel("C:\\Users\\Davide\\Documents\\Screenshot_2017-04-15-13-20-00.png");
 #else
-	float factor = strtof(argv[2], nullptr);
-	std::tie(grid, pieces) = detectLevel(argv[1], factor);
+	config.factor = strtof(argv[2], nullptr);
+	std::tie(grid, pieces) = detector.detectLevel(argv[1]);
 #endif 
 
 	execute(grid, pieces, argc, argv);

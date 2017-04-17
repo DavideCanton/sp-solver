@@ -8,30 +8,29 @@
 using namespace std;
 using namespace cv;
 
-#define MIN_RADIUS 25
-#define MAX_RADIUS 50
-#define MIN_LINE_LENGTH 50
-#define MAX_LINE_GAP 50
-#define LIMIT_GAP 80
-
 Scalar PIECE_COLOR = CV_RGB(65, 33, 145);
 
-vector<Vec3f> detectCircles(Mat& img, int offset)
+LevelDetector::LevelDetector(const LevelDetectorConfig& config) : config(config)
+{
+}
+
+vector<Vec3f> LevelDetector::detectCircles(Mat& img, int offset)
 {
 	vector<Vec3f> circles;
 
 	HoughCircles(img(Rect(0, offset, img.cols, img.rows - offset)),
-		circles, CV_HOUGH_GRADIENT, 1, img.rows / 32, 30, 30, MIN_RADIUS, MAX_RADIUS);
+		circles, CV_HOUGH_GRADIENT, 1, img.rows / 32, this->config.hough_circles_param, this->config.hough_circles_param, 
+		this->config.min_radius, this->config.max_radius);
 
 	return circles;
 }
 
-bool near_border(int x, int limit, int threshold = 10)
+bool LevelDetector::near_border(int x, int limit, int threshold = 10)
 {
 	return abs(x - limit) < threshold;
 }
 
-vector<int> detectPieces(Mat& img, Mat& img_gray)
+vector<int> LevelDetector::detectPieces(Mat& img, Mat& img_gray)
 {
 	vector<Vec4i> lines;
 
@@ -39,7 +38,8 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 
 	Canny(img_gray, img_gray_d, 40, 120);
 
-	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 25, MIN_LINE_LENGTH, MAX_LINE_GAP);
+	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 
+		this->config.hough_lines_threshold, this->config.min_line_length, this->config.max_line_gap);
 
 	Vec3b v = img.at<Vec3b>(img.cols / 2, img.rows / 2);
 	Scalar centerColor = Scalar(v[0], v[1], v[2]);
@@ -87,31 +87,29 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 		}
 	}
 
-	if (!dirs.empty()) { 
+	if (config.display_pieces && !dirs.empty()) { 
 		imshow("Piece", img); waitKey(0);
 	}
 
 	return vector<int>(dirs.begin(), dirs.end());
 }
 
-/** @function main */
-std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor = 2.0f)
+std::pair<Grid, PieceVec> LevelDetector::detectLevel(std::string fname)
 {
 	Mat src, src_gray;
 
-	/// Read the image
+	// Read the image
 	src = imread(fname, 1);
 
 	if (!src.data)
 		throw std::logic_error("Invalid image");
 
-
 	int offset = 0;
-	int limit = src.rows / 4 - LIMIT_GAP;
-	/// Convert it to gray
+	int limit = src.rows / 4 - this->config.limit_gap;
+	// Convert it to gray
 	cvtColor(src, src_gray, CV_BGR2GRAY);
 
-	/// Reduce the noise so we avoid false circle detection
+	// Reduce the noise so we avoid false circle detection
 	GaussianBlur(src_gray, src_gray, Size(9, 9), 2, 2);
 
 	vector<Vec3f> circles = detectCircles(src_gray, offset);
@@ -123,14 +121,13 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor = 2.0f)
 	for (Vec3f p : circles)
 		if (p[1] > limit)
 		{
-			//if (n == 0)
 			start = p;
 			avg_radius += p[2];
 			++n;
 		}
 
 	avg_radius /= n;
-	avg_radius *= factor;
+	avg_radius *= config.factor;
 
 	Grid grid;
 	PieceVec pv;
