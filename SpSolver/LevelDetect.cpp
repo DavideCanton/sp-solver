@@ -26,7 +26,7 @@ vector<Vec3f> detectCircles(Mat& img, int offset)
 	return circles;
 }
 
-bool near_border(int x, int limit, int threshold = 2)
+bool near_border(int x, int limit, int threshold = 10)
 {
 	return abs(x - limit) < threshold;
 }
@@ -37,9 +37,9 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 
 	Mat img_gray_d;
 
-	Canny(img_gray, img_gray_d, 30, 100);
+	Canny(img_gray, img_gray_d, 40, 120);
 
-	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 30, MIN_LINE_LENGTH, MAX_LINE_GAP);
+	HoughLinesP(img_gray_d, lines, 1, CV_PI / 180 * 30, 25, MIN_LINE_LENGTH, MAX_LINE_GAP);
 
 	Vec3b v = img.at<Vec3b>(img.cols / 2, img.rows / 2);
 	Scalar centerColor = Scalar(v[0], v[1], v[2]);
@@ -49,16 +49,21 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 	{
 		for (Vec4i c : lines)
 		{
-			line(img, Point2i(c[0], c[1]), Point2i(c[2], c[3]), CV_RGB(0, 255, 0));
+			bool in_border = false;
 
 			if (near_border(c[0], 0) && near_border(c[2], 0))
-				continue;
+				in_border = true;
 			if (near_border(c[0], img.cols) && near_border(c[2], img.cols))
-				continue;
+				in_border = true;
 			if (near_border(c[1], 0) && near_border(c[3], 0))
-				continue;
+				in_border = true;
 			if (near_border(c[1], img.rows) && near_border(c[3], img.rows))
-				continue;
+				in_border = true;
+
+			auto color = in_border ? CV_RGB(255, 0, 0) : CV_RGB(0, 255, 0);
+			line(img, Point2i(c[0], c[1]), Point2i(c[2], c[3]), color);
+
+			if (in_border) continue;
 
 			float m = static_cast<float>(c[3] - c[1]) / (c[2] - c[0]);
 			if (isfinite(m))
@@ -82,9 +87,9 @@ vector<int> detectPieces(Mat& img, Mat& img_gray)
 		}
 	}
 
-	//if (!dirs.empty()) { 
-	//imshow("Piece", img); waitKey(0);
-	//}
+	if (!dirs.empty()) { 
+		imshow("Piece", img); waitKey(0);
+	}
 
 	return vector<int>(dirs.begin(), dirs.end());
 }
@@ -145,7 +150,6 @@ std::pair<Grid, PieceVec> detectLevel(std::string fname, float factor = 2.0f)
 			grid.set_el(Coords(q, r), GRID_EMPTY_CELL);
 
 			//draw_hex(src, center, (int) size.x, Point2d(0, offset));
-			//draw_text(src, center - Point2d(10, 0), repr, Point2d(0, offset));
 		}
 		else
 		{
